@@ -4,9 +4,19 @@
 
 class docker_systemd {
 
-  exec { 'systemctl-daemon-reload':
-    command     => '/usr/bin/systemctl daemon-reload',
-    refreshonly => true,
-  }
+    case $::os['family'] {
+      'Debian': {
+        exec { 'systemctl-daemon-reload':
+          command     => '/bin/systemctl daemon-reload',
+          refreshonly => true,
+        }
+      }
+      'RedHat': {
+        exec { 'systemctl-daemon-reload':
+          command     => '/usr/bin/systemctl daemon-reload',
+          refreshonly => true,
+        }
+      }
+    }
 
 }
